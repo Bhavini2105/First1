@@ -1,0 +1,336 @@
+#Azure-->
+day-1
+
+#account Creation +
+
+#Resource Group--> 
+- Group of our Resources.
+- In aws we have to terminate all the things we have created from their respective sections.
+- In Azure we have provided resource group, when we are going to create on AZURE portal then in which section we have to create this resource. and when we want to delete all resource that we have created we can just delete a resource group.
+
+Steps to Create Resource Group-->
+- Go to all services--> click on Resource Group--> Create --> Provide name and region(Central India) --> click on Review+Create --> create.
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Day-2
+
+#Virtual Machine-(VM)--> 
+VM is nothing but your Instance in AWS
+
+Windows VM-
+Steps-->
+create Resource Group First-->Serach VM --> create --> select RG--> provide VM name-->	provide Region as Central India--> Provide availability zone-->security group as standard--> select OS image as windows free--> provide size as standard E2,16gb --> provide username and password--> next --> 
+-->inside inbound port rule--> provide RDP, http and https-->
+review+create-->after validate -->create
+--> After VM is ready--> goto resources--> open RDP client---> copy public IP, username and paste--> type password and connect.
+
+--> after connecting--> open server manager in VM --> add roles and features--> Next--> Next--> next--> Web Server(IIS)--> Next--> Next--> Next-->Next--> Install--> create a html file in that inetpub folder and hit the public IP of VM --> generate QR Code--> delete Resource Group--> 
+
+Assignment-->
+1. deploy static website
+2. create a Disk(volume) and attach it
+
+Note--> BigRegion--> east US--> aws--> n.vgn
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+#Day3-
+Ubuntu VM-
+Steps--> 
+create Resource Group FirstSerach VM --> create --> select RG--> provide VM name--> provide Region as Central India--> Provide availability zone--> 
+-->select os as ubuntu free -->provide size--> here is two ways connect first is password and another is SSH public key--> select password and provide password--> inside inbound port rule--> provide SSH, http and https--> next --> submit
+
+--> After deployment complete--> goto resource--> open powershell--> type ssh username@IP--> y --> yes --> type password--> password is not visible but it will type--> If green name is there then it will be connected-->
+
+sudo su
+apt update -y
+apt-get install apache2 -y
+service apache2 status
+cd /var/www/html
+ls
+vi demo.html
+cat demo.html
+mv demo.html index.html  [to move the content of demo.html to index.html]
+
+hit the public IP of instance
+
+
+task--> connect with puttygen.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Day-4
+Load Balancer-->
+Steps-->
+Create RG--> create Virtual Network--> provide name--> review + create--> create--> Create Two Virtual Machine of Windows-->Create Server on Each VM and Deploy index.html file on both VM-->
+--> Now click on vm1 --> go to networking tab-->Network Settings--> click on public IP--> Dissociate -->yes --> and Stop vm1.
+--> Now click on vm2 --> go to networking tab-->Network Settings--> click on public IP--> Dissociate -->yes --> and Stop vm2.
+--> this is because we are not sending request on virtual machine.  we are sending request on Load Balancer.
+
+--> Search Load balancer--> create--> provide name--> Region--> type as Public--> next--> Add frontEnd IP configuration--> provide name--> Inside public IP Address-->Create new--> Save--> next--> add backend pool--> select VN--> Click on Add --> select both VM-->Add--> save--> next--> add load balancing rule--> provide name-->select frontend IP address--> select backend Pool--> provide port(80)--> backend port 80--> health probe-->create new--> provide name --> save.--> outbound rule-->review + create--> create--> after creating go to resource--> see more --> copy the public IP and hit it.--> back to the VM and start both VM --> refresh the page.
+--> Delete Resource Group.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Day-5
+#AutoScaling-->
+VMSS-->
+
+Steps-->
+Create RG--> search--> Virtual Machine Scale Set--> Create --> Provide name--> region--> scaling mode as autoScaling--> under scaling configuration --> click on configure--> edit the default condition -->  provide the configuration--> save --> provide username and password--> next--> goto networking tab and choose 'network interface' and edit it and add rdp port, http, https--> next --> review + create.
+--> Now go to Virtual Machine and check the Virtual Machine is created or not.
+
+--------------------------------------------------------------------------------------------------------------
+6-->
+Storage Account-->
+Blob--> similar as S3 bucket
+File Share--> --- as EFS but it supports windows also
+Queue--> -----as SQS
+Tables--> ----as RDS. 
+For DynamoDb--> no-sql is there
+
+Steps-->
+Create RG--> search storage account--> select --> select RG--> provide storage account name --> select primary service as azure blob storage--> scroll --> review + create.--> create.
+Note --> First we have to create account in storage account after that there will be 4 options.
+
+Now, go to resource--> under left pane--> data storage--> click on containers--> click + container--> In right side provide name--> enable anonymous access -->for that go to overview --> under properties --> blob service--> click on blob anonymous access and enable it(it is like ACL enabled) --> back to container --> advanced--> create.
+ 
+--> go to container name--> Upload --> browse files --> and add files--> upload--> click on public url of any file and hit it--> there will showing resource not found--> go to containers --> select --> change access level--> choose second option--> refresh the url.
+Now upload one more file --> scroll right --> scroll right and click on three dots--> click on change tier--> you can change the storage type like hot and cold.--> you can also download it using three dots.
+
+Tables--> Steps--> click on tables under container--> click on '+' button--> Give name--> create --> 
+
+Queues--> Steps--> Click on queus under container--> click on '+' --> create. [NowDays this is not used by anyone. Service bus queue used by every one. There are lot of options] --> click on queue name --> click on add msg--> provide msg --> click ok--> add two more msg--> dequeue--> after dequeue msg will delete--> so it is the disadvantage for team work.
+
+assignment--> File Share
+
+-----------------------------------------------------------------------------------------------------------------------
+7--> pending
+
+#Webapp-->
+
+- It comes under PaaS Model.
+- Similar as Elastic Bean Stalk.
+- In this We deploy our code, for that the required server, VM and other installation is handle our Service Provider.
+
+Steps--> Create RG--> Search Webapp--> click on app Services--> create--> webapp--> select RG--> provide domain name--> select .Net 8--> select region--> select OS as Windows--> review+create--> create--> if error then delete a automatically created resource group --> change region and try again--> 
+
+Open Visual Studio--> create new Project --> Search MVC--> select First option --> Next --> Next--> Create --> Right click on Project --> Publish--> select Azure --> Next --> Select Azure App Service(Windows) --> Next --> Sign In with help of Your Azure Creadentials--> Expand RG --> select webapp that u created--> Finish--> Close.--> CLick on the publish button
+
+-----------------------------------------------------------------------------------------------------------------------
+
+8--> Task--> Create a VM and a Volume and Mount it.
+
+------------------------------------------------------------------------------------------------
+
+9-->   
+#Logic App--> 
+- There are built in logics/triggers.
+- There are some automated mail like password change, new user, or other system generated mails.
+- So azure created some triggers/events and actions.
+- With this we can create/develop a logic app.
+
+Steps-->
+--> create RG--> search logic app and select --> select consumption--> select --> Select region--> Provide Name--> review+ create--> Create.
+--> goto resource--> click on get Started--> click on choose template--> here are some common trigger--> click blank logic app--> search outlook.com-->
+--> click on when new mail arrives--> sign in --> add new parameter--> Subject--> add word 'test' in subject--> click on new step--> search outlook.com--> now we are providing action--> select reply to email --> under message Id provide message Id from dropdown-->add new parameter subject and body--> Click on Save--> go to you gmail account and send mail to this outlook account.
+--> Now Check that autoreply is coming or not.
+
+--> Repeat steps with gmail..!
+ 
+--> Delete Resource Group.
+------------------------------------------------------------------------------------------------------------------
+
+10-->pending
+
+Function App--> Serverless Computing Service
+--> Azure Functions is a serverless solution that allows you to write less code, maintain less infrastructure, and save on costs. 
+--> Instead of worrying about deploying and maintaining servers, the cloud infrastructure provides all the up-to-date resources needed to keep your applications running.
+
+STEPS--> 
+--> Create RG--> Search Function App--> Choose Consumption(pay as per use)--> provide RG--> provide name--> select version as 6 --> provide region--> OS as Windows--> review+create --> Create.--> goto Resources--> open Visual Studio --> create new project --> search azure function--> provide name --> next --> create.
+
+------------------------------------------------------------------------------------------------------------------------
+
+11--> pending
+
+#Application Insights--> Similar as Cloud Watch
+-> It is Monitoring Service. we generate logs.
+-> We can integrate this with any other service for monitoring purpose.
+-> If there is any bug then we can easily resolve it.
+
+Steps-->
+-> Create RG--> Search Application Insights --> Create --> provide RG --> Provide name--> provide Region--> review + Create.
+
+---------------------------------------------------------------------------------------------------------------------------
+
+12 -->
+
+#ServiceBus Queue--> Similar as Queue(From Storage Account)-->
+--> We use ServiceBusQueue Instead of Queue.
+--> You can create Different Different queues inside the ServiceBusQueue like subscribers. 
+	
+
+Steps--> Create RG --> search Service Bus--> provide namespace(domain) --> region --> select Pricing as Basic --> review + create --> Create
+--> Go to Resource--> Select + Queue --> provide name--> size(minimum) --> provide max delivery count(10) --> create --> Click on entities --> Queues --> click on service bus explorer--> click on send messages--> provide message body--> send.--> select peek mode--> click on peek from start --> if You want to peek next message and skip already read message then click on Peek Next Message.--> send 3-4 more messages--> and click on peak from start --> send one more message --> Peek next messages--> Now Refresh --> it disappeared not deleted--> it available inside queue--> Now click on Receive Mode--> there are two modes --> Peek Lock and Receive and Delete--> If You select Peek lock then it only reads not delete and if you select Receive and delete --> It will delete after read.--> Try both Methods--> You can select it and downloads that mesasges-->try Purge-->try export messages--> delete queue--> delete ServiceBus--> Delete RG.
+
+Note--> Only Service Bus is not used you should use this with integrate with other services.
+--------------------------------------------------------------------------------------------------------------------------
+
+13--> 
+DevOps -- Theory -revise once
+
+---------------------------------------------------------------------------------------------------------------------------
+
+14-->
+#ARM--> Azure Resource Manager 
+- ARM is a Microsoft service that helps users manage and deploy resources in Azure.
+- ARM provides a management layer that allows users to Create, update, and delete resources.
+
+Steps-->
+
+--> Create RG --> goto custom Deployment--> Create Windows Virtual Machine-->Edit template --> download-->edit parameter --> Download--> there should be two files that are parameter.json and template.json --> right click on template.json and open with notepad --> right click on parameter.json and open with notepad --> now provide value inside the parameter.json like "TekVM" for username and provide the value of Password also --> remove the default value from template.json --> save
+
+--> go to portal--> Search Custom Deployment --> select Deploy custom template--> Click on Build your Own template in editor--> remove all code from that --> click on load file --> select Your template.json --> save --> info will be filled automatically--> now click on edit parameters--> remove code--> and again click on load file and and select parameter.json and save.--> now select RG--> and review + crate --> Create.
+
+assign--> Linux VM and storage account.
+----------------------------------------------------------------------------------------------------------------------------
+
+15--> NoSQL DB--> prev name is cosmos DB.
+--> It is used to store data in unstructured format.
+--> 
+
+Steps--> Search NOSQL DB--> select Cosmos DB--> Create --> select --> Azure Cosmos DB for NoSQL--> provide RG--> ac name--> provide location--> review + Create --> Once the account is created, go to your Cosmos DB account --> Under Data Explorer, click New Container--> provide name--> container ID--> 
+
+--> Now click on newly created container--> Select New Item to manually add a new document (data) in JSON format.--> Enter the data and click Save to store it in the container.
+
+----------------------------------------------------------------------------------------------------------------------------
+
+#Azure DevOps-1-->
+#Theory Explanation--> 
+
+Jira--> Jira is a project management tool that helps teams plan, track, and release software.
+In Azure There is Tool in Azure which is similar as Jira that is Azure DevOps
+
+Steps--->
+Search AzureDevops on azure portal--> Select Azure DevOps Organization--> click on My Azure DevOps Organizations --> fill the details -->continue--> Now first we have to create New Organization--> create new organization --> continue--> provide organization name --> provide region --> Inside organization --> You create your project --> Provide Project Name--> keep it private--> Create Project --> You can invite you team mates to join your project from this platform --> 
+
+So, to delete project --> click on Project Settings--> 	inside overview --> there is option Delete Project--> provide Project Name--> And delete.
+
+To delete organization--> go to Organization Settings--> Delete Organization --> Delete.
+There are Limits for organizations. So dont Create Multiple oraganizations. and dont try too many times.
+
+-------------------------------------------------------------------------------------------------------
+
+#Azure DevOps-2-->
+#Search AzureDevops on azure portal--> Create organization--> create a Project  --> select Task--> provide task--> go to overview--> click on Invite--> provide any mail Id--> add--> Check main after --> check mail and join --> go to boards--> click on new Work item-->epik--> provide task name --> click on person symbol--> and provide user mail id--> provide description --> save--> there should email come to user --> back to boards --> there is showing task--> we should monitoring task from here--> you can add discussion and priority --> 1 means normal --> 4 means High-->try to assigning three-four tasks--> try using issues--> 
+
+--> Sprint--> you can create sprint and delivery plans--> 
+--> repos--> Its like code commit--> here is one empty repo --> you can crate repo, import repo, manage repo-->you can generate git credentials--> clone this with local repo--> after cloning add some files --> and push it --> now do not delete anything like project and organization.
+----------------------------------------------------------------------------------------------------------------------
+#Azure DevOps-3--> 
+
+-->create new project in visual studio-->select ASP.net core web app[mvc]-->
+after creating click on 'Add code to Source'--> click on azure devops--> provide ac--> click on create and push--> check the project is added or not.
+Note--> if you are adding new then you have to configure it.
+
+----------------------------------------------------------------------------------------------------------------------
+#Azure DevOps-4--> 
+#CodeDeployAgent--> We have to setup default agent in free tier.
+
+steps--> 
+Search AzureDevops on azure portal--> Create organization--> create a Project  -->
+-->click on pipelines-->project Settings--> 
+agent pools--> click on default--> agents--> new agent--> download --> type first command from below--> then check path --> and type other commands-->	[ensure that folder is created and path has provided]--> now go to projects--> copy the project URL --> paste in CMD--> now you have to provide PAT--> have to generate it--> for generate go to user setting right corner--> there is option PAT-->click--> new Token--> provide name--> 90days --> full access--> create[save this anywhere]--> goto cmd type 'PAT'-->enter-->paste pat id and enter--> if not done check using organization url and 'pat'--> now check agent--> pipelines--> project settings--> agent pools--> default--> agent --> its offline --> so to make online that open agent folder in 'C' drive--> and open run.cmd file. --> it will become online.
+
+----------------------------------------------------------------------------------------------------------------------
+#Azure DevOps-5--> 
+#Deploy .Net App using pipelines-->
+
+--> create a .net mvc app using visual studio--> push that on repo--> active agent--> go to pipeline ---> now enable classic editor option--> go to pipeline settings--> disable creation pipeline--> enable that both options--> goto organization settings--> disable creation of classic build pipeline-->disable below also--> go to project --> create pipeline--> click on use the classic editor button--> select azure git--> provide repo name and all--> continue--> search ASP dot net --> click on black color asp dot net core--> Apply--> click inside agent pool--> select default--> click on save and queue button--> provide comment(its optional) --> save --> click on agent job1--> there should executing pipelines--> its building--> so we have to deploy project so we have to create a web app--> duplicate and create a web app in azure--> 
+
+Steps--> Create RG--> Search Webapp--> click on app Services--> create--> webapp--> select RG--> provide domain name--> select .Net 8--> select region--> select OS as Windows--> review+create--> create--> if error then delete a automatically created resource group --> change region and try again--> 
+
+--> after creating web app--> go to pipelines tab--> click  on releases under pipeline--> new pipeline--> select azure app service deployment (right side)-->click--> click on three dots--> save as template--> provide name--> there should be name New release pipeline--> we have to do mapping of pipeline--> click on +Add button in front of artifact-->select pipeline from dropdown--> add--> click on stages one job one task--> click on azure subsccription--> click on free tier --> authorized--> login if required--> click web app name from azure service app-->save --> Ok--> we have created CICD pipeline--> Now we have to run this--> click on Run on agent--> select default agent--> save --> click on create release--> create--> click on release one from yellow bar--> so the deployment has started--> after execute --> click on succedd--> click on succed--> goto webapp--> copy domain name and paste it in new tab--> there should be running project.--> go to repos --> change something in view(index.html)--> go to pipeline --> run pipeline-->
+--> click on agent job1--> back to releases--> refresh--> goto stages --> redeploy--> delete pipeline.
+---------------------------------------------------------------------------------------------------------------------------------------
+
+#Azure DevOps-6 -->
+#How to Trigger Pipeline Automatically..
+
+--> Push .Net Application code on repository-->enable agent--> go to pipeline --> create pipeline-->click on use the classic editor button--> select azure git--> provide repo name and all--> continue-->search ASP dot net --> click on black color asp dot net core--> Apply--> click inside agent pool--> select default-->click on triggers-->right side under webApplications--> click on enable continuous integration--> click on save and queue button--> save and run--> click on agent job1--> there should executing pipelines--> its building--> so we have to deploy project so we have to create a web app--> duplicate and create a web app in azure--> 
+--> after creating web app--> go to pipelines tab--> click  on releases under pipeline--> new pipeline--> select azure app service deployment (right side)-->click--> click on three dots--> save as template--> provide name--> there should be name 'New release pipeline'--> we have to do mapping of pipeline--> click on +Add button in front of artifact-->select pipeline from dropdown--> add-->
+--> click on thunder icon --> enable continuous deployment trigger--> Save-->click on stages one job one task--> click on azure subsccription--> click on free tier --> authorized--> click web app name from azure service app-->save --> Ok--> we have created CICD pipeline--> Now we have to run this--> click on Run on agent--> select default agent--> save --> click on create release--> create--> click on release one from yellow bar--> so the deployment has started--> after execute --> click on succed--> click on succed--> goto webapp--> copy domain name and paste it in new tab--> there should be running project--> change something in the view pages--> check the CI and CD Pipeline and check the tab again after refresh.
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+#Azure DevOps-6 --> 
+#Create Storage Account using ARM [using Pipeline]--> [like SDK]
+--> Create a Storage Account--> go to resources-> enable blob anonymous access--> search export in left textbox-->click on export template--> after generating template --> click on download button--> delete resource group--> yaml file WA--> extract the downloaded file--> there should template and parameter.json--> copy the downloaded yaml file--> and paste in extracted folder --> create a new Project in Azure Devops and create a new repo and push that files in that repo--> create a folder in repo --> click on three dots in front of storage--> upload three files--> commit.
+
+-->Active Agent First--> go to pineline --> Select Azure Repos Git--> Click on Existing Azure pipelines--> select Path --> continue--> CLick on Run Button--> CLick on Job--> Click on view--> Permit--> We have to create Release Pipeline--> Click on Empty Job--> Click on Add button infront of artifact-->provide Source--> Add--> click on 1 job 0 task--> select agent--> save --> Click on + button infront of Agent Job--> Now we have to create task--> Search ARM Template -->Select ARM template Deployement--> Click on that --> select subscription --> authorize--> Refresh subscription if need--> Provide RG --> Provide Location(East US) --> provide location of template.json--> select parameter.json--> Save --> Create a Release-->  click on release-1 from yellow bar--> if error --> try to recreating release.--> after succed check storage account is created or not.--> delete Pipeline
+
+--> Yam- Yet Another Markup Language--> [we write deployment instructions in the yaml file]
+----------------------------------------------------------------------------------------------------------------------
+
+#Azure DevOps-7 --> Assignment
+#Create VM using ARM [using Pipeline]--> [like SDK]
+
+
+-----------------------------------------------------------------------------------------------------------------------
+#8
+#Azure Docker --> Theory Explain
+
+Steps--> Login Azure port-> Launch Linux VM--> Connect it--> 
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+Git-1 [Globle Information Tracker]
+
+# What is Version Control System ?
+--> Version Control System is used to Manage and track the changes of your source code.
+--> You can work collaboratively using Version Control System.
+--> eg. What's app or any Software.
+
+--> Git is most popular Version Control System. 
+--> More than 50% projects from industry are build using Git.
+--> Git was developed in 2005. Its Open Source.
+--> If you want to use git in local system then we use git and github is online Platform.
+--> If you do any Mistake then you can easily undo it.
+
+Why we use git..?
+-> best performance for all features.
+-> flexibility
+-> Secure - [SHA-1 Algorithm (if you want to add some malicious code in your code then you cannot add it)].
+
+Steps--> Account Creation and Initial Push commands.
+
+-------------------------------------------------------------------------------------------------------
+
+Git-2-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
